@@ -9,7 +9,7 @@ function App() {
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
           <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-              <div className="container"><a className="navbar-brand" href="/">Hexlet</a></div>
+              <div className="container"><Link className="navbar-brand" to="/">Hexlet chat</Link></div>
           </nav>
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
