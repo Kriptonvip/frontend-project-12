@@ -1,19 +1,37 @@
+import axios from 'axios';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAuth } from './auth';
+
 
 const LoginForm = () => {
-
+    const [username, setUser] = useState(''); 
+    const auth =  useAuth();
+    const navigate = useNavigate();
     const initialValues = {
-        username: '',
+        username,
         password: '',
     }
     const onSubmit = values => {
-        console.log('Values', values);
+            axios.post('/api/v1/login',{
+                username: values.username,
+                password: values.password,
+            })
+            .then( (response) => {
+                console.log(response.data);
+                const { token, username } = response.data;
+                localStorage.setItem('token', token);
+                axios.defaults.headers.common['Authorization'] = token;
+                auth.login(username);
+                navigate('/');
+                })
     }
 
     const validationSchema = Yup.object({
         username: Yup.string().required('Required'),
-        password: Yup.string().min(6).required('Required'),
+        password: Yup.string().required('Required'),
     })
 
     return (
