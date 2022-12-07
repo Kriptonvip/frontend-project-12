@@ -3,8 +3,9 @@ import { Navigate } from 'react-router-dom';
 
 
 export const RequireAuth = ({children}) => {
-    console.log(localStorage)
-    if (!localStorage.token) {
+    const auth = useAuth();
+    // console.log(!localStorage.token, auth.username === null)
+    if (!localStorage.token || auth.username === null) {
         return <Navigate to='/login' />
     }
     return children;

@@ -14,19 +14,24 @@ const LoginForm = () => {
         username,
         password: '',
     }
-    const onSubmit = values => {
+    const onSubmit = async (values, formikBag) => {
             axios.post('/api/v1/login',{
                 username: values.username,
                 password: values.password,
             })
             .then( (response) => {
-                console.log(response.data);
                 const { token, username } = response.data;
                 localStorage.setItem('token', token);
                 axios.defaults.headers.common['Authorization'] = token;
+                setUser(username);
                 auth.login(username);
                 navigate('/');
                 })
+            .catch((error) => {
+                // console.log(formikBag);
+                formikBag.setStatus(true);
+                values.error = error.response.data.error
+            })
     }
 
     const validationSchema = Yup.object({
@@ -39,6 +44,7 @@ const LoginForm = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}>
+        {({status}) => (
             <Form className="col-12 col-md-6 mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">Войти</h1>
                 <div className="form-floating mb-3 ">
@@ -67,10 +73,13 @@ const LoginForm = () => {
                     <ErrorMessage name='password'>
                     {(errorMsg) => <div className='text-danger'>{errorMsg}</div>}
                     </ErrorMessage>
+                    {status ? <div className="text-danger">Неверные имя пользователя или пароль</div> : null }
                     <label className="form-label" for="password">Пароль</label>
                 </div>
                 <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+               
             </Form>
+        )}
       </Formik>
     );
 }   
