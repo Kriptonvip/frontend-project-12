@@ -1,13 +1,8 @@
 {
-  "name": "@hexlet/chat-server",
-  "version": "1.1.6",
-  "description": "## Install",
-  "main": "plugin.js",
-  "type": "module",
-  "proxy": "http://localhost:5001",
-  "bin": {
-    "start-server": "bin/index.js"
-  },
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/build",
@@ -17,29 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6",
-    "bootstrap": "^5.2.3",
-    "commander": "^9.3.0",
-    "debug": "^4.3.4",
-    "eslint-config-airbnb": "^19.0.4",
-    "fastify": "^3.29.0",
-    "fastify-cli": "^3.1.0",
-    "fastify-jwt": "^4.2.0",
-    "fastify-socket.io": "^3.0.0",
-    "fastify-static": "^4.7.0",
-    "http-errors": "^2.0.0",
-    "localforage": "^1.10.0",
-    "lodash": "^4.17.21",
-    "match-sorter": "^6.3.1",
-    "react-router-dom": "^6.4.4",
-    "socket.io": "^4.5.1",
-    "sort-by": "^0.0.2"
-  },
-  "devDependencies": {
-    "eslint": "^8.19.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.5.3",
-    "jest": "^28.1.2"
+    "@hexlet/chat-server": "^1.1.6"
   },
   "repository": {
     "type": "git",
