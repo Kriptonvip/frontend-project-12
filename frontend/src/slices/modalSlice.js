@@ -2,18 +2,24 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   modalType: null,
-  extra: null,
+  id: null,
+  name: null,
+  isOpen: null,
 };
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal(state, { payload } ) {
+    openModal(state, { payload }) {
+      console.log(payload)
       state.modalType = payload.modalType;
+      state.id = payload.id;
+      state.name = payload.name
+      state.isOpen = true;
     },
     closeModal(state) {
-        state.modalType = null;
+      state.isOpen = null;
     },
   },
 });

@@ -10,7 +10,7 @@ function ChannelsHeader() {
       <span>Каналы</span>
       <button
         onClick={() =>
-          dispatch(openModal({ modalType: 'AddChannel', extra: null }))
+          dispatch(openModal({ modalType: 'AddChannel' }))
         }
         type="button"
         className="p-0 text-primary btn btn-group-vertical">

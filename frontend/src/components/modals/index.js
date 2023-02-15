@@ -5,16 +5,15 @@ import RemoveChannel from './RemoveChannel';
 import RenameChannel from './RenameChannel';
 
 function ModalWindow() {
-  const { modalType } = useSelector((state) => state.modalReducer);
-    console.log('Modal window rendered', modalType)
+  const { modalType, id, name, isOpen } = useSelector((state) => state.modalReducer);
   switch (modalType) {
     case 'AddChannel':
         console.log('Case AddChannel fire!Q')
-        return <AddChannel/>
+        return <AddChannel show={isOpen} id= {id}/>
     case 'RemoveChannel':
-        return <RemoveChannel/>
+        return <RemoveChannel show={isOpen} id= {id}/>
     case 'RenameChannel':
-        return <RenameChannel/>
+        return <RenameChannel show={isOpen} id= {id} name={name}/>
 
     default:
         return null;

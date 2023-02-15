@@ -1,26 +1,29 @@
 import axios from 'axios';
-import { Modal } from 'bootstrap';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { socket } from '../context/socket';
-import { addNewChannel, setChannels } from '../slices/channelsSlice';
+import { addNewChannel, removeChannel, renameChannel, setChannels } from '../slices/channelsSlice';
 import { addMessage, setMessages } from '../slices/messagesSlice';
 import store from '../slices/store';
 import Channels from './Channels';
 import ChannelsHeader from './ChannelsHeader';
 import Messages from './Messages';
-import ModalWindow from './modals/ModalWindow';
+import ModalWindow from './modals/index';
 
 const Main = () => {
   // const [isConnected, setIsConnected] = useState(socket.connected);
   const dispatch = useDispatch();
   const onNewMessage = (message) => {
-    console.log('newMessage send');
     dispatch(addMessage(message));
   };
-  const onNewnewChannel = (message) => {
-    console.log('newMessage send');
+  const onNewChannel = (message) => {
     dispatch(addNewChannel(message));
+  };
+  const onRemoveChannel = ({id}) => {
+    dispatch(removeChannel(id));
+  };
+  const onRenameChannel = (payload) => {
+    dispatch(renameChannel(payload));
   };
   const { currentChannelId } = useSelector((store) => store.channelsReducer);
   useEffect(() => {
@@ -34,10 +37,17 @@ const Main = () => {
       store.dispatch(setMessages(data.messages));
       store.dispatch(setChannels(data.channels));
       socket.on('newMessage', onNewMessage);
-      socket.on('newChannel', onNewnewChannel)
+      socket.on('newChannel', onNewChannel)
+      socket.on('removeChannel', onRemoveChannel)
+      socket.on('renameChannel', onRenameChannel)
     };
     fetchData();
-    return () => socket.off('newMessage', onNewMessage);
+    return () => {
+      socket.off('newMessage', onNewMessage);
+      socket.off('newChannel', onNewChannel);
+      socket.off('removeChannel', onRemoveChannel);
+      socket.off('renameChannel', onRenameChannel);
+    }
   }, []);
 
   return (

@@ -1,39 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useDispatch } from 'react-redux';
+import { SocketContext } from '../../context/socket';
+import { closeModal } from '../../slices/modalSlice';
 
-function RemoveChannel() {
-  const [show, setShow] = useState('');
-  const [value, setValue] = useState('');
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-  
-  const handleSubmit = (value) => (e) => {
+function RemoveChannel({ show, id }) {
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+  const handleClose = () => dispatch(closeModal());
+
+  const handleRemove = (e) => {
     e.preventDefault();
-    console.log(e, 'element')
-    console.log(value)
+    try {
+      socket.emit('removeChannel', {
+        id: id,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
     handleClose();
   };
 
-  
-  const onInput = ({ target: { value } }) => setValue(value);
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Добавить канал</Modal.Title>
+          <Modal.Title>Удалить канал</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit(value)}>
-            <Form.Group className="mb-3" name="ChannelName">
-              <Form.Control
-                type="text"
-                placeholder=""
-                autoFocus
-                onChange={onInput}
-                value={value}
-              />
+          <Form>
+            <Form.Group className="mb-3" name="RemoveChannel">
+              <p className="lead">Уверены?</p>
             </Form.Group>
             <div className="d-flex justify-content-end">
               <Button
@@ -42,8 +41,8 @@ function RemoveChannel() {
                 onClick={handleClose}>
                 Отменить
               </Button>
-              <Button type="submit" variant="primary">
-                Отправить
+              <Button type="submit" variant="danger" onClick={handleRemove}>
+                Удалить
               </Button>
             </div>
           </Form>

@@ -2,15 +2,13 @@ import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SocketContext } from '../../context/socket';
 import { closeModal } from '../../slices/modalSlice';
 
-function AddChannel() {
+function AddChannel({show}) {
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
-  const modalType = useSelector((state) => state.modalReducer.modalType);
-  const show = !!modalType;
   const [value, setValue] = useState('');
   // const handleShow = () => setShow(true);
   const handleClose = () => dispatch(closeModal());
